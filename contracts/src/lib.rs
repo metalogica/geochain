@@ -11,8 +11,8 @@ pub struct GpsEvent {
 
 #[derive(NonFungibleData, ScryptoSbor)]
 pub struct AirTag {
-    name: String,
-    description: String,
+    pub name: String,
+    pub description: String,
     serial: String,
     #[mutable]
     gps_events: Vec<GpsEvent>,
