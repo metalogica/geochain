@@ -1,0 +1,9 @@
+{
+  "name": "geochain-backend",
+  "version": "1.0.0",
+  "description": "backend to stream data from air local tag to radix DLT",
+  "main": "index.js",
+  "scripts": {},
+  "author": "richard jarram",
+  "license": "ISC"
+}
