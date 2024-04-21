@@ -14,6 +14,7 @@ pub struct AirTag {
     name: String,
     description: String,
     serial: String,
+    #[mutable]
     gps_events: Vec<GpsEvent>,
 }
 
@@ -101,18 +102,16 @@ mod air_tag_nft {
                 timestamp: Clock::current_time_rounded_to_seconds(),
             };
 
-            let air_tag: AirTag = self
+            let mut air_tag: AirTag = self
                 .air_tag_resource_manager
                 .get_non_fungible_data(&NonFungibleLocalId::Integer(id.into()));
 
-            let mut air_tag_gps_events = air_tag.gps_events;
-
-            let updated_air_tag_gps_events = air_tag_gps_events.push(gps_event);
+            air_tag.gps_events.push(gps_event);
 
             self.air_tag_resource_manager.update_non_fungible_data(
-                &NonFungibleLocalId::Integer(self.air_tag_id_counter.into()),
+                &NonFungibleLocalId::Integer(id.into()),
                 "gps_events",
-                updated_air_tag_gps_events,
+                air_tag.gps_events,
             );
         }
     }
