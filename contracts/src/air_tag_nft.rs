@@ -49,11 +49,11 @@ mod air_tag_nft {
             .globalize()
         }
 
-        pub fn mint(&mut self) -> Bucket {
+        pub fn mint(&mut self, name: String, description: String, serial: String) -> Bucket {
             let new_air_tag = AirTag {
-                name: "my new air tag".into(),
-                description: "I'm ADHD so I love things all the time!".into(),
-                serial: "SERIALOUSLY?!".into(),
+                name,
+                description,
+                serial,
             };
 
             let new_air_tag_bucket = self.air_tag_resource_manager.mint_non_fungible(
