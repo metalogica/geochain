@@ -21,7 +21,7 @@ mod gps_event_nft {
                 Runtime::allocate_component_address(GpsEventNft::blueprint_id());
 
             let gps_event_resource_manager =
-                ResourceBuilder::new_integer_non_fungible::<GpsEventNft>(OwnerRole::None)
+                ResourceBuilder::new_integer_non_fungible::<GpsEvent>(OwnerRole::None)
                     .metadata(metadata! {
                       init {
                         "name" => "Real world asset - Air Tag", locked;
