@@ -31,7 +31,7 @@ fn test_air_tag_nft() {
 }
 
 #[test]
-fn test_hello_with_test_environment() -> Result<(), RuntimeError> {
+fn test_ait_tag_with_test_environment() -> Result<(), RuntimeError> {
     let mut env = TestEnvironment::new();
     let package_address = Package::compile_and_publish(this_package!(), &mut env)?;
 
