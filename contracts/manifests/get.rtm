@@ -5,10 +5,8 @@ CALL_METHOD
 ;
 CALL_METHOD
     Address("component_sim1cp0enntpraa4ene8ekhcx4nwyq23u3z2403hyj5c42zh89rsengkxf")
-    "mint"
-    "air-tag-1"
-    "great air tag"
-    "SERIAL1"
+    "get"
+    0u64
 ;
 CALL_METHOD
     Address("account_sim1cy5s2jqy6h569rj8282l59zvkwtjkxm2ky6fuzj55fgfyj5zuuddc2")

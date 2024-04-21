@@ -26,7 +26,7 @@ mod air_tag_nft {
     }
 
     impl AirTagNft {
-        pub fn instantiate_component() -> Global<AirTagNft> {
+        pub fn instantiate() -> Global<AirTagNft> {
             let (address_reservation, component_address) =
                 Runtime::allocate_component_address(AirTagNft::blueprint_id());
 

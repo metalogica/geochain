@@ -3,12 +3,10 @@ CALL_METHOD
     "lock_fee"
     Decimal("5000")
 ;
-CALL_METHOD
-    Address("component_sim1cp0enntpraa4ene8ekhcx4nwyq23u3z2403hyj5c42zh89rsengkxf")
-    "mint"
-    "air-tag-1"
-    "great air tag"
-    "SERIAL1"
+CALL_FUNCTION
+    Address("package_sim1ph8fqgwl6sdmlxxv06sf2sgk3jp9l5vrrc2enpqm5hx686auz0d9k5")
+    "AirTagNft"
+    "instantiate"
 ;
 CALL_METHOD
     Address("account_sim1cy5s2jqy6h569rj8282l59zvkwtjkxm2ky6fuzj55fgfyj5zuuddc2")
