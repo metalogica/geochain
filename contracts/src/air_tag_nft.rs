@@ -29,23 +29,28 @@ mod air_tag_nft {
             let (address_reservation, component_address) =
                 Runtime::allocate_component_address(AirTagNft::blueprint_id());
 
-            let air_tag_resource_manager =
-                ResourceBuilder::new_integer_non_fungible::<AirTag>(OwnerRole::None)
-                    .metadata(metadata! {
-                      init {
-                        "name" => "Real world asset - Air Tag", locked;
-                        "symbol" => "AIRTAG", locked;
-                      }
-                    })
-                    .mint_roles(mint_roles!(
-                        minter => rule!(require(global_caller(component_address)));
-                        minter_updater => rule!(deny_all);
-                    ))
-                    .burn_roles(burn_roles!(
-                        burner => rule!(require(global_caller(component_address)));
-                        burner_updater => rule!(deny_all);
-                    ))
-                    .create_with_no_initial_supply();
+            let air_tag_resource_manager = ResourceBuilder::new_integer_non_fungible::<AirTag>(
+                OwnerRole::None,
+            )
+            .metadata(metadata! {
+              init {
+                "name" => "Real world asset - Air Tag", locked;
+                "symbol" => "AIRTAG", locked;
+              }
+            })
+            .mint_roles(mint_roles!(
+                minter => rule!(require(global_caller(component_address)));
+                minter_updater => rule!(deny_all);
+            ))
+            .non_fungible_data_update_roles(non_fungible_data_update_roles!(
+                non_fungible_data_updater => rule!(require(global_caller(component_address)));
+                non_fungible_data_updater_updater => rule!(deny_all);
+            ))
+            .burn_roles(burn_roles!(
+                burner => rule!(require(global_caller(component_address)));
+                burner_updater => rule!(deny_all);
+            ))
+            .create_with_no_initial_supply();
 
             Self {
                 air_tag_resource_manager,
@@ -62,13 +67,7 @@ mod air_tag_nft {
                 name,
                 description,
                 serial,
-                gps_events: vec![GpsEvent {
-                    latitude_degree: 1,
-                    latitude_decimal: 1,
-                    longitude_degree: 1,
-                    longitude_decimal: 1,
-                    timestamp: Clock::current_time_rounded_to_seconds(),
-                }],
+                gps_events: vec![],
             };
 
             let new_air_tag_bucket = self.air_tag_resource_manager.mint_non_fungible(
@@ -81,9 +80,40 @@ mod air_tag_nft {
             new_air_tag_bucket
         }
 
-        pub fn create_gps_event(&mut self) {
-            // take air tag id
-            // instantiate new gps event
+        pub fn get(&mut self, id: u64) -> AirTag {
+            self.air_tag_resource_manager
+                .get_non_fungible_data(&NonFungibleLocalId::Integer(id.into()))
+        }
+
+        pub fn create_gps_event(
+            &mut self,
+            id: u64,
+            latitude_degree: i8,
+            latitude_decimal: u64,
+            longitude_degree: i8,
+            longitude_decimal: u64,
+        ) {
+            let gps_event = GpsEvent {
+                latitude_degree,
+                latitude_decimal,
+                longitude_degree,
+                longitude_decimal,
+                timestamp: Clock::current_time_rounded_to_seconds(),
+            };
+
+            let air_tag: AirTag = self
+                .air_tag_resource_manager
+                .get_non_fungible_data(&NonFungibleLocalId::Integer(id.into()));
+
+            let mut air_tag_gps_events = air_tag.gps_events;
+
+            let updated_air_tag_gps_events = air_tag_gps_events.push(gps_event);
+
+            self.air_tag_resource_manager.update_non_fungible_data(
+                &NonFungibleLocalId::Integer(self.air_tag_id_counter.into()),
+                "gps_events",
+                updated_air_tag_gps_events,
+            );
         }
     }
 }
