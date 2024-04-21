@@ -1,0 +1,26 @@
+{
+  "name": "geochain-frontend",
+  "version": "1.0.0",
+  "description": "radix-dlt-geochain-frontend",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run clean && cp src/index.html dist/index.html && browserify src/index.js -t [ babelify --presets [@babel/preset-env] --global ] -o dist/index.dist.js",
+    "clean": "rm -rf dist && mkdir dist"
+  },
+  "keywords": [
+    "radix"
+  ],
+  "author": "richard jarram",
+  "license": "ISC",
+  "dependencies": {
+    "@radixdlt/radix-dapp-toolkit": "^1.4.4",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0"
+  },
+  "type": "module"
+}
