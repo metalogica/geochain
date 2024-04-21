@@ -24,8 +24,8 @@ mod gps_event_nft {
                 ResourceBuilder::new_integer_non_fungible::<GpsEvent>(OwnerRole::None)
                     .metadata(metadata! {
                       init {
-                        "name" => "Real world asset - Air Tag", locked;
-                        "symbol" => "AIRTAG", locked;
+                        "name" => "Real world asset - Air Tag GPS Event", locked;
+                        "symbol" => "GPS", locked;
                       }
                     })
                     .mint_roles(mint_roles!(

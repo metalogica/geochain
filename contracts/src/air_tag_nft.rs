@@ -1,19 +1,27 @@
 use scrypto::prelude::*;
 
 #[derive(NonFungibleData, ScryptoSbor)]
+pub struct GpsEvent {
+    latitude_degree: i8,
+    latitude_decimal: u64,
+    longitude_degree: i8,
+    longitude_decimal: u64,
+    timestamp: Instant,
+}
+
+#[derive(NonFungibleData, ScryptoSbor)]
 pub struct AirTag {
     name: String,
     description: String,
     serial: String,
+    gps_events: Vec<GpsEvent>,
 }
 
 #[blueprint]
 mod air_tag_nft {
     struct AirTagNft {
-        // TODO: a vault containing all GPS events for this air tag
-        // gps_events: Vec<GpsEvent>,
-        air_tag_resource_manager: ResourceManager,
         air_tag_id_counter: u64,
+        air_tag_resource_manager: ResourceManager,
     }
 
     impl AirTagNft {
@@ -54,6 +62,13 @@ mod air_tag_nft {
                 name,
                 description,
                 serial,
+                gps_events: vec![GpsEvent {
+                    latitude_degree: 1,
+                    latitude_decimal: 1,
+                    longitude_degree: 1,
+                    longitude_decimal: 1,
+                    timestamp: Clock::current_time_rounded_to_seconds(),
+                }],
             };
 
             let new_air_tag_bucket = self.air_tag_resource_manager.mint_non_fungible(
@@ -64,6 +79,11 @@ mod air_tag_nft {
             self.air_tag_id_counter += 1;
 
             new_air_tag_bucket
+        }
+
+        pub fn create_gps_event(&mut self) {
+            // take air tag id
+            // instantiate new gps event
         }
     }
 }
